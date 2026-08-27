@@ -5,17 +5,16 @@ import (
 	"flix360-core-api/internal/core/domain"
 )
 
-// ProductRepository es el puerto de salida (Outbound Port)
-// Define las operaciones que la base de datos DEBE implementar.
 type ProductRepository interface {
 	Create(ctx context.Context, product *domain.Product) error
 	GetByID(ctx context.Context, id string) (*domain.Product, error)
-	// Aquí a futuro agregaremos GetBySKU, List, Update, etc.
+	// Nueva función para listar:
+	List(ctx context.Context, companyID string, limit, offset int, search string) ([]*domain.Product, int64, error)
 }
 
-// ProductService es el puerto de entrada (Inbound Port)
-// Define los casos de uso que los controladores HTTP pueden llamar.
 type ProductService interface {
 	CreateProduct(ctx context.Context, product *domain.Product) error
 	GetProduct(ctx context.Context, id string) (*domain.Product, error)
+	// Nueva función para listar:
+	ListProducts(ctx context.Context, companyID string, limit, offset int, search string) (*domain.PaginatedResponse, error)
 }

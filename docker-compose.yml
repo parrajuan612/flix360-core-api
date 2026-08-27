@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  postgres_flix:
+    image: postgres:15
+    container_name: flix360_db
+    environment:
+      POSTGRES_USER: flix_admin
+      POSTGRES_PASSWORD: flix_password
+      POSTGRES_DB: flix360
+    ports:
+      - "5433:5432" # Exponemos en el puerto 5433 para no chocar con finanzas
+    volumes:
+      - flix360_data:/var/lib/postgresql/data
+
+volumes:
+  flix360_data:

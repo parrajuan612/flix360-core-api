@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 
 	"flix360-core-api/internal/core/domain"
 	"flix360-core-api/internal/core/ports"
@@ -66,4 +67,26 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 
 	// 3. Respondemos con un 200 OK y el JSON del producto
 	c.JSON(http.StatusOK, product)
+}
+func (h *ProductHandler) ListProducts(c *gin.Context) {
+	// Extraemos la empresa del Token de seguridad
+	companyID := c.GetString("company_id")
+
+	// Leer parámetros de la URL (Query Params)
+	limitStr := c.DefaultQuery("limit", "20")
+	offsetStr := c.DefaultQuery("offset", "0")
+	search := c.Query("search")
+
+	// Convertir strings a enteros
+	limit, _ := strconv.Atoi(limitStr)
+	offset, _ := strconv.Atoi(offsetStr)
+
+	// Llamar al servicio
+	response, err := h.service.ListProducts(c.Request.Context(), companyID, limit, offset, search)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al listar productos"})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

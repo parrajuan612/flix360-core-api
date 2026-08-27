@@ -65,3 +65,40 @@ func (r *productRepository) GetByID(ctx context.Context, id string) (*domain.Pro
 
 	return &product, nil
 }
+func (r *productRepository) List(ctx context.Context, companyID string, limit, offset int, search string) ([]*domain.Product, int64, error) {
+	var products []*domain.Product
+	var total int64
+
+	// 1. Contar el total de registros (útil para que el frontend dibuje los botones de las páginas)
+	countQuery := `
+		SELECT COUNT(*) 
+		FROM "flix-360".products 
+		WHERE company_id = $1 AND ($2 = '' OR name ILIKE '%' || $2 || '%' OR sku ILIKE '%' || $2 || '%')
+	`
+	err := r.db.GetContext(ctx, &total, countQuery, companyID, search)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// Si no hay ninguno, no hacemos la segunda consulta
+	if total == 0 {
+		return []*domain.Product{}, 0, nil
+	}
+
+	// 2. Traer los registros paginados
+	query := `
+		SELECT 
+			id, company_id, category_id, sku, name, description, inventory_mode, status, created_at, updated_at 
+		FROM "flix-360".products 
+		WHERE company_id = $1 AND ($2 = '' OR name ILIKE '%' || $2 || '%' OR sku ILIKE '%' || $2 || '%')
+		ORDER BY created_at DESC
+		LIMIT $3 OFFSET $4
+	`
+
+	err = r.db.SelectContext(ctx, &products, query, companyID, search, limit, offset)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return products, total, nil
+}

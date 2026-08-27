@@ -1,3 +1,67 @@
 2026/08/10 16:13:37 ❌ Error conectando a la base de datos: pq: password authentication failed for user "postgres" (28P01)
 2026/08/19 16:55:23 ✅ Conexión exitosa a la base de datos PostgreSQL
 2026/08/19 16:55:23 🚀 Servidor corriendo en http://localhost:8590
+2026/08/20 20:22:20 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5432: connect: connection refused
+2026/08/20 20:26:56 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/20 20:26:56 🚀 Servidor corriendo en http://localhost:8590
+2026/08/20 20:45:47 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/20 20:45:47 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 10:09:42 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5432: connect: connection refused
+2026/08/25 10:15:56 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5432: connect: connection refused
+2026/08/25 10:18:48 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5432: connect: connection refused
+2026/08/25 10:24:25 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 10:24:25 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 10:45:26 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 10:45:26 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 10:50:15 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 10:50:15 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 11:13:00 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 11:13:00 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 11:13:00 Fallo al arrancar el servidor: listen tcp :8090: bind: address already in use
+2026/08/25 11:13:33 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 11:13:33 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 12:30:59 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5433: connect: connection refused
+2026/08/25 12:31:36 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5433: connect: connection refused
+2026/08/25 12:32:19 ❌ Error conectando a la base de datos: dial tcp 127.0.0.1:5433: connect: connection refused
+2026/08/25 12:34:38 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 12:34:38 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 12:49:30 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 12:49:30 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 12:56:14 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 12:56:14 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 13:17:04 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 13:17:04 🚀 Servidor corriendo en http://localhost:8590
+2026/08/25 13:23:47 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/25 13:23:47 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 09:55:41 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 09:55:41 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 12:50:49 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 12:50:49 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 17:33:14 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 17:33:14 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 17:35:21 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 17:35:21 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 17:48:07 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 17:48:07 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 17:56:58 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 17:56:58 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 18:11:40 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 18:12:25 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 18:51:38 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 18:51:38 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 19:27:48 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 19:27:48 🚀 Sincronizador Offline iniciado en segundo plano...
+2026/08/26 19:27:48 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 19:27:58 ⚙️ Procesando 1 trabajos offline pendientes...
+2026/08/26 19:27:58 ✅ Trabajo 92404e82-b730-4f78-9318-57442b470f6b procesado con éxito
+2026/08/26 19:28:28 ⚙️ Procesando 1 trabajos offline pendientes...
+2026/08/26 19:28:28 ✅ Trabajo ed622042-67fb-4388-a1ef-4964bb0d7915 procesado con éxito
+2026/08/26 19:43:29 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 19:43:29 🚀 Sincronizador Offline iniciado en segundo plano...
+2026/08/26 19:43:29 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 19:48:59 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 19:48:59 🚀 Sincronizador Offline iniciado en segundo plano...
+2026/08/26 19:48:59 🚀 Servidor corriendo en http://localhost:8590
+2026/08/26 19:52:03 ✅ Conexión exitosa a la base de datos PostgreSQL
+2026/08/26 19:52:03 🚀 Sincronizador Offline iniciado en segundo plano...
+2026/08/26 19:52:03 🚀 Servidor corriendo en http://localhost:8590

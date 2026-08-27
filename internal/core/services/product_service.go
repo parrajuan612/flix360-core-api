@@ -59,3 +59,27 @@ func (s *productService) GetProduct(ctx context.Context, id string) (*domain.Pro
 	}
 	return s.repo.GetByID(ctx, id)
 }
+func (s *productService) ListProducts(ctx context.Context, companyID string, limit, offset int, search string) (*domain.PaginatedResponse, error) {
+	// Validaciones de seguridad para no saturar la base de datos
+	if limit <= 0 || limit > 100 {
+		limit = 20 // Por defecto traemos 20
+	}
+	if offset < 0 {
+		offset = 0
+	}
+
+	// Limpiamos la búsqueda
+	search = strings.TrimSpace(search)
+
+	products, total, err := s.repo.List(ctx, companyID, limit, offset, search)
+	if err != nil {
+		return nil, err
+	}
+
+	return &domain.PaginatedResponse{
+		Total:  total,
+		Limit:  limit,
+		Offset: offset,
+		Data:   products,
+	}, nil
+}
