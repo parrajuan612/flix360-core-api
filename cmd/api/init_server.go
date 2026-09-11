@@ -41,7 +41,7 @@ func InitServer(r *gin.Engine) {
 	}
 
 	log.Printf("🚀 Servidor corriendo en http://localhost:%s\n", port)
-	if err := r.Run(":8090"); err != nil {
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Fallo al arrancar el servidor: %v", err)
 	}
 }

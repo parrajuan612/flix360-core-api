@@ -11,6 +11,7 @@ import (
 	"flix360-core-api/internal/core/ports"
 
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type authService struct {
@@ -38,7 +39,8 @@ func (s *authService) Login(ctx context.Context, req *domain.LoginRequest) (*dom
 	// 3. Comparar contraseñas
 	// TODO: En un entorno de producción usaremos bcrypt.CompareHashAndPassword
 	// Por ahora validamos el texto plano que insertamos en nuestra prueba
-	if user.PasswordHash != req.Password {
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password))
+	if err != nil {
 		return nil, errors.New("credenciales incorrectas")
 	}
 

@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 
 	"flix360-core-api/internal/core/domain"
 	"flix360-core-api/internal/core/ports"
@@ -43,4 +44,21 @@ func (h *LocationHandler) GetLocationByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, loc)
+}
+func (h *LocationHandler) ListLocations(c *gin.Context) {
+	companyID := c.GetString("company_id")
+
+	limitStr := c.DefaultQuery("limit", "50")
+	offsetStr := c.DefaultQuery("offset", "0")
+
+	limit, _ := strconv.Atoi(limitStr)
+	offset, _ := strconv.Atoi(offsetStr)
+
+	response, err := h.service.ListLocations(c.Request.Context(), companyID, limit, offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al listar locaciones"})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

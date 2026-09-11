@@ -33,6 +33,7 @@ func InitRouter(r *gin.Engine, h *AppHandlers) {
 			// --- Locaciones ---
 			protected.POST("/locations", h.Location.CreateLocation)
 			protected.GET("/locations/:id", h.Location.GetLocationByID)
+			protected.GET("/locations", h.Location.ListLocations)
 
 			// --- Dispositivos ---
 			protected.POST("/devices", h.Device.CreateDevice)
