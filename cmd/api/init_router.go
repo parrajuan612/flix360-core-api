@@ -41,6 +41,7 @@ func InitRouter(r *gin.Engine, h *AppHandlers) {
 
 			// --- Categorías ---
 			protected.POST("/categories", h.Category.CreateCategory)
+			protected.GET("/categories", h.Category.ListCategories)
 			protected.GET("/categories/:id", h.Category.GetCategoryByID)
 
 			// --- Definición de Atributos ---

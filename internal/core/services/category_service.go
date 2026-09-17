@@ -47,3 +47,18 @@ func (s *categoryService) GetCategoryByID(ctx context.Context, id string) (*doma
 	}
 	return s.repo.GetByID(ctx, id)
 }
+func (s *categoryService) ListCategories(ctx context.Context, companyID string, limit, offset int) (*domain.PaginatedResponse, error) {
+	if limit <= 0 || limit > 100 {
+		limit = 50
+	}
+	if offset < 0 {
+		offset = 0
+	}
+
+	cats, total, err := s.repo.List(ctx, companyID, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+
+	return &domain.PaginatedResponse{Total: total, Limit: limit, Offset: offset, Data: cats}, nil
+}

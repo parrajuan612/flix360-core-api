@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 
 	"flix360-core-api/internal/core/domain"
 	"flix360-core-api/internal/core/ports"
@@ -40,4 +41,17 @@ func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, cat)
+}
+
+func (h *CategoryHandler) ListCategories(c *gin.Context) {
+	companyID := c.GetString("company_id")
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "50"))
+	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
+
+	response, err := h.service.ListCategories(c.Request.Context(), companyID, limit, offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al listar"})
+		return
+	}
+	c.JSON(http.StatusOK, response)
 }

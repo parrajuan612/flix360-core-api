@@ -25,6 +25,9 @@ func (h *RfidTagHandler) CreateTag(c *gin.Context) {
 		return
 	}
 
+	// 🔥 LA MAGIA DE SEGURIDAD AQUÍ: Inyectamos el ID de la empresa desde el Token
+	tag.CompanyID = c.GetString("company_id")
+
 	if err := h.service.CreateTag(c.Request.Context(), &tag); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

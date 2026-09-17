@@ -25,6 +25,9 @@ func (h *InventoryAssetHandler) CreateAsset(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Datos inválidos", "detalle": err.Error()})
 		return
 	}
+	asset.CompanyID = c.GetString("company_id")
+	userID := c.GetString("user_id")
+	asset.CreatedBy = &userID
 
 	if err := h.service.CreateAsset(c.Request.Context(), &asset); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
