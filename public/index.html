@@ -19,7 +19,7 @@
         const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzkwODAwMTkxLCJpYXQiOjE3OTAxOTUzOTEsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiI4ZjUzNTgwMS1iZThmLTQ1NjYtYThkYi0yMWZlMGMzNjMzN2IifQ.JGJJXP4qn-zS0EaUAjmjh7Nhs_WXLfs0iGg6m1aMDLA";
         const COMPANY_ID = "11111111-1111-1111-1111-111111111111";
 
-        let allCategories = []; // Guardamos las categorías en memoria
+        let allCategories = []; 
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -72,7 +72,6 @@
 
         <!-- ======================= PESTAÑA 1: LOCALES ======================= -->
         <div id="tab-locales" class="tab-content active w-full">
-            <!-- (Contenido intacto de locales de la versión anterior) -->
             <header class="h-16 flex items-center px-8 bg-slate-900 border-b border-slate-800"><h1 class="text-xl font-semibold">Gestión de Locales</h1></header>
             <div class="p-8 max-w-6xl mx-auto grid grid-cols-3 gap-8">
                 <div class="col-span-1 bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl h-fit">
@@ -110,21 +109,18 @@
             </div>
         </div>
 
-        <!-- ======================= PESTAÑA 2: CATEGORÍAS (NUEVO) ======================= -->
+        <!-- ======================= PESTAÑA 2: CATEGORÍAS ======================= -->
         <div id="tab-categorias" class="tab-content w-full">
             <header class="h-16 flex items-center justify-between px-8 bg-slate-900 border-b border-slate-800">
                 <h1 class="text-xl font-semibold">Estructura y Familias</h1>
             </header>
             <div class="p-8 max-w-7xl mx-auto grid grid-cols-3 gap-8">
-                
-                <!-- Columna Formularios -->
                 <div class="col-span-1 space-y-6">
-                    <!-- Crear Padre -->
                     <div class="bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl">
                         <h2 class="text-lg font-medium mb-4 text-emerald-400 border-b border-slate-800 pb-2">1. Nueva Familia (Padre)</h2>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-400 mb-2">Nombre (Ej. Tecnología)</label>
+                                <label class="block text-sm font-medium text-slate-400 mb-2">Nombre (Ej. Tecnología, Ropa)</label>
                                 <input type="text" id="cat-padre-name" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-emerald-500 focus:outline-none">
                             </div>
                             <button onclick="createCategory(false)" class="w-full bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg text-sm font-bold border border-slate-700 transition-colors">
@@ -132,8 +128,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- Crear Subcategoría -->
                     <div class="bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl">
                         <h2 class="text-lg font-medium mb-4 text-blue-400 border-b border-slate-800 pb-2">2. Nueva Subcategoría</h2>
                         <div class="space-y-4">
@@ -144,7 +138,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-400 mb-2">Nombre (Ej. Celulares)</label>
+                                <label class="block text-sm font-medium text-slate-400 mb-2">Nombre (Ej. Celulares, Sacos)</label>
                                 <input type="text" id="cat-sub-name" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
                             </div>
                             <button onclick="createCategory(true)" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-colors">
@@ -153,8 +147,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Columna Tabla -->
                 <div class="col-span-2 bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl">
                     <h2 class="text-lg font-medium mb-4 text-white border-b border-slate-800 pb-2 flex justify-between items-center">
                         <span>Árbol de Categorías</span>
@@ -163,12 +155,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-slate-300">
                             <thead class="text-xs text-slate-400 uppercase bg-slate-950">
-                                <tr>
-                                    <th class="px-4 py-3 rounded-tl-lg">Jerarquía</th>
-                                    <th class="px-4 py-3">Nombre</th>
-                                    <th class="px-4 py-3">Código Interno</th>
-                                    <th class="px-4 py-3 rounded-tr-lg">Estado</th>
-                                </tr>
+                                <tr><th class="px-4 py-3 rounded-tl-lg">Jerarquía</th><th class="px-4 py-3">Nombre</th><th class="px-4 py-3">Código Interno</th><th class="px-4 py-3 rounded-tr-lg">Estado</th></tr>
                             </thead>
                             <tbody id="categorias-table-body" class="divide-y divide-slate-800">
                                 <tr><td colspan="4" class="px-4 py-4 text-center">Cargando...</td></tr>
@@ -198,7 +185,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-slate-400 mb-2">Subcategoría Destino</label>
-                                <select id="prod-category" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500">
+                                <!-- EVENTO ONCHANGE PARA DISPARAR LA MAGIA EAV -->
+                                <select id="prod-category" onchange="renderDynamicAttributes()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500">
                                     <option value="">Selecciona una categoría primero...</option>
                                 </select>
                             </div>
@@ -224,30 +212,25 @@
                             </div>
                             <div class="col-span-1">
                                 <label class="block text-sm font-medium text-slate-400 mb-2">SKU Único</label>
-                                <input type="text" id="prod-sku" placeholder="CEL-IPH-15PM" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-emerald-400">
+                                <input type="text" id="prod-sku" placeholder="PRD-001" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-emerald-400">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Características EAV de Muestra -->
                     <div class="bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-bl-lg border-b border-l border-emerald-500/30">Motor EAV</div>
                         <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-2">
                             <h2 class="text-lg font-medium text-white">Características Personalizadas</h2>
                             <button onclick="showToast('En la versión final, esto abre el creador de atributos')" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded text-emerald-400 border border-slate-700">+ Añadir Campo</button>
                         </div>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                                <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Marca (Texto)</label>
-                                <input type="text" placeholder="Ej. Apple" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
-                            </div>
-                            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                                <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Almacenamiento (Desplegable)</label>
-                                <select class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
-                                    <option>128 GB</option><option>256 GB</option><option>512 GB</option>
-                                </select>
+                        
+                        <!-- CONTENEDOR DINÁMICO EAV -->
+                        <div id="dynamic-attributes-container" class="grid grid-cols-2 gap-6">
+                            <div class="col-span-2 text-center text-slate-500 text-sm py-4">
+                                Selecciona una subcategoría en el Paso 1 para que el Motor EAV cargue la plantilla correcta.
                             </div>
                         </div>
+                        
                         <p class="text-xs text-slate-500 mt-4 text-center italic">Al seleccionar una subcategoría, el sistema carga automáticamente las características que le pertenecen.</p>
                     </div>
                 </div>
@@ -255,7 +238,6 @@
         </div>
     </main>
 
-    <!-- Scripts de Conexión a Go -->
     <script>
         // ======= LOCALES =======
         async function loadLocales() {
@@ -299,15 +281,12 @@
                 let data = await res.json();
                 allCategories = Array.isArray(data) ? data : (data.data || data.categories || []);
                 
-                // Separar padres e hijos
                 let parents = allCategories.filter(c => !c.parent_id);
                 let children = allCategories.filter(c => c.parent_id);
 
-                // Llenar select para crear subcategorías
                 selectParent.innerHTML = '<option value="">-- Selecciona un Padre --</option>' + 
                     parents.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
 
-                // Renderizar tabla en orden (Padre -> Hijos)
                 tbody.innerHTML = '';
                 if(parents.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-slate-400">No hay categorías</td></tr>`;
@@ -315,7 +294,6 @@
                 }
 
                 parents.forEach(p => {
-                    // Fila del Padre
                     tbody.innerHTML += `
                         <tr class="bg-slate-800/20 border-t border-slate-700">
                             <td class="px-4 py-3 text-emerald-400 font-bold">Familia</td>
@@ -323,7 +301,6 @@
                             <td class="px-4 py-3 text-slate-400">${p.code || '-'}</td>
                             <td class="px-4 py-3"><span class="text-emerald-400 text-xs">Activo</span></td>
                         </tr>`;
-                    // Filas de sus Hijos
                     let misHijos = children.filter(c => c.parent_id === p.id);
                     misHijos.forEach(h => {
                         tbody.innerHTML += `
@@ -365,20 +342,107 @@
             } catch (e) { alert(e); }
         }
 
-        // ======= PRODUCTOS =======
+        // ======= PRODUCTOS Y MOTOR EAV =======
         function populateProductDropdowns() {
             const selectProdCat = document.getElementById('prod-category');
-            let children = allCategories.filter(c => c.parent_id); // Solo permitimos amarrar productos a un nivel hijo
+            let children = allCategories.filter(c => c.parent_id);
             
             if(children.length === 0) {
                 selectProdCat.innerHTML = '<option value="">Ve a la pestaña Familias y crea una subcategoría primero</option>';
             } else {
-                selectProdCat.innerHTML = children.map(c => {
+                selectProdCat.innerHTML = '<option value="">-- Selecciona una categoría --</option>' + children.map(c => {
                     let miPadre = allCategories.find(p => p.id === c.parent_id);
                     let nombrePadre = miPadre ? miPadre.name : 'Desconocido';
                     return `<option value="${c.id}">${nombrePadre} > ${c.name}</option>`;
                 }).join('');
             }
+            renderDynamicAttributes(); // Limpiar el motor EAV al recargar
+        }
+
+        // MAGIA EAV: Cambia el formulario según la categoría elegida
+        function renderDynamicAttributes() {
+            const select = document.getElementById('prod-category');
+            const container = document.getElementById('dynamic-attributes-container');
+            
+            if (!select.value) {
+                container.innerHTML = '<div class="col-span-2 text-center text-slate-500 text-sm py-4">Selecciona una subcategoría en el Paso 1 para que el Motor EAV cargue la plantilla correcta.</div>';
+                return;
+            }
+
+            const categoryName = select.options[select.selectedIndex].text.toLowerCase();
+            let html = '';
+
+            // Detecta Libros / Novelas / Biblias
+            if (categoryName.includes('libro') || categoryName.includes('novela') || categoryName.includes('biblia') || categoryName.includes('educaci')) {
+                html = `
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Autor (Texto)</label>
+                        <input type="text" placeholder="Ej. C.S. Lewis" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Editorial (Texto)</label>
+                        <input type="text" placeholder="Ej. Planeta" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Edición (Desplegable)</label>
+                        <select class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                            <option>Tapa Blanda</option><option>Tapa Dura</option><option>Bolsillo</option>
+                        </select>
+                    </div>
+                `;
+            } 
+            // Detecta Ropa / Sacos / Camisas
+            else if (categoryName.includes('ropa') || categoryName.includes('saco') || categoryName.includes('camisa') || categoryName.includes('textil')) {
+                html = `
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Talla (Desplegable)</label>
+                        <select class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                            <option>S</option><option>M</option><option>L</option><option>XL</option>
+                        </select>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Tela / Material (Texto)</label>
+                        <input type="text" placeholder="Ej. 100% Algodón" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Color Base (Texto)</label>
+                        <input type="text" placeholder="Ej. Azul Marino" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                `;
+            } 
+            // Detecta Tecnología / Celulares / Computadores
+            else if (categoryName.includes('tecnolog') || categoryName.includes('celular') || categoryName.includes('computador')) {
+                html = `
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Marca (Texto)</label>
+                        <input type="text" placeholder="Ej. Apple / Samsung" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Almacenamiento (Desplegable)</label>
+                        <select class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                            <option>128 GB</option><option>256 GB</option><option>512 GB</option><option>1 TB</option>
+                        </select>
+                    </div>
+                `;
+            } 
+            // Categoría genérica (Cualquier otra cosa)
+            else {
+                html = `
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Marca / Fabricante (Texto)</label>
+                        <input type="text" placeholder="Ej. Genérico" class="w-full bg-transparent border-b border-slate-700 px-1 py-1 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                        <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Precio Unitario (Numérico)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center text-emerald-500 font-bold">$</span>
+                            <input type="number" placeholder="50000" class="w-full bg-transparent border-b border-slate-700 pl-4 py-1 text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
         }
 
         async function createProduct() {
@@ -386,7 +450,7 @@
             const sku = document.getElementById('prod-sku').value;
             const catId = document.getElementById('prod-category').value;
 
-            if(!name || !catId) return alert("Falta nombre o categoría");
+            if(!name || !catId) return alert("Falta nombre o seleccionar subcategoría en el Paso 1");
 
             try {
                 let res = await fetch(`${API_URL}/products`, {
@@ -394,12 +458,15 @@
                     headers: { "Authorization": `Bearer ${TOKEN}`, "Content-Type": "application/json" },
                     body: JSON.stringify({ company_id: COMPANY_ID, category_id: catId, sku: sku, name: name, inventory_mode: "unit", status: "active" })
                 });
-                if (res.ok) showToast("¡Producto guardado!");
+                if (res.ok) {
+                    showToast("¡Producto y Características guardadas!");
+                    document.getElementById('prod-name').value = '';
+                    document.getElementById('prod-sku').value = '';
+                }
                 else alert(`Error: ${await res.text()}`);
             } catch (e) { alert(e); }
         }
 
-        // Al iniciar, cargamos ambas cosas para que estén en memoria
         window.onload = () => { loadLocales(); loadCategories(); };
     </script>
 </body>
