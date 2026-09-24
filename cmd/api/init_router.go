@@ -7,6 +7,7 @@ import (
 )
 
 func InitRouter(r *gin.Engine, h *AppHandlers) {
+	r.StaticFile("/admin", "./public/index.html")
 	v1 := r.Group("/api/v1")
 	{
 		// ==========================================

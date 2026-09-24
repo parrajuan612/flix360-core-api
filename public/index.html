@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flix360 | Portal Administrativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0F172A; color: #F8FAFC; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Configuración de API (Ruta relativa) -->
+    <script>
+        const API_URL = "/api/v1"; 
+        const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzkwODAwMTkxLCJpYXQiOjE3OTAxOTUzOTEsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiI4ZjUzNTgwMS1iZThmLTQ1NjYtYThkYi0yMWZlMGMzNjMzN2IifQ.JGJJXP4qn-zS0EaUAjmjh7Nhs_WXLfs0iGg6m1aMDLA";
+        const COMPANY_ID = "11111111-1111-1111-1111-111111111111";
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('text-emerald-400', 'bg-slate-800');
+                el.classList.add('text-slate-400');
+            });
+            document.getElementById('nav-' + tabId).classList.remove('text-slate-400');
+            document.getElementById('nav-' + tabId).classList.add('text-emerald-400', 'bg-slate-800');
+
+            if (tabId === 'tab-locales') loadLocales();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.style.transform = "translateY(0)";
+            setTimeout(() => { toast.style.transform = "translateY(-150%)"; }, 3000);
+        }
+    </script>
+
+    <!-- Menú Lateral -->
+    <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col">
+        <div class="h-16 flex items-center px-6 border-b border-slate-800">
+            <div class="w-8 h-8 bg-emerald-500 rounded-full mr-3"></div>
+            <span class="text-xl font-bold tracking-wide text-white">FLIX 360</span>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <button id="nav-tab-locales" onclick="switchTab('tab-locales')" class="nav-btn w-full flex items-center px-4 py-3 text-emerald-400 bg-slate-800 rounded-lg transition-colors text-left font-medium">
+                Bodegas y Locales
+            </button>
+            <button id="nav-tab-productos" onclick="switchTab('tab-productos')" class="nav-btn w-full flex items-center px-4 py-3 text-slate-400 hover:bg-slate-800 rounded-lg transition-colors text-left font-medium">
+                Catálogo (Productos)
+            </button>
+        </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="flex-1 bg-slate-950 flex flex-col overflow-y-auto relative">
+        <div id="toast" class="absolute top-4 right-8 z-50 bg-emerald-500 text-white px-6 py-3 rounded-lg shadow-lg font-medium transition-transform duration-300" style="transform: translateY(-150%);">
+            ✓ <span id="toast-msg">Acción exitosa</span>
+        </div>
+
+        <!-- ======================= PESTAÑA: LOCALES ======================= -->
+        <div id="tab-locales" class="tab-content active w-full">
+            <header class="h-16 flex items-center px-8 bg-slate-900 border-b border-slate-800">
+                <h1 class="text-xl font-semibold">Gestión de Locales</h1>
+            </header>
+            <div class="p-8 max-w-6xl mx-auto grid grid-cols-3 gap-8">
+                
+                <div class="col-span-1 bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl h-fit">
+                    <h2 class="text-lg font-medium mb-4 text-white border-b border-slate-800 pb-2">Crear Nuevo Local</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Nombre de la Bodega</label>
+                            <input type="text" id="loc-name" placeholder="Ej. Bodega Norte" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Tipo</label>
+                            <select id="loc-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none">
+                                <option value="warehouse">Bodega Principal (Warehouse)</option>
+                                <option value="store">Tienda Física (Store)</option>
+                            </select>
+                        </div>
+                        <button onclick="createLocation()" class="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-colors">
+                            Guardar Bodega
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-span-2 bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl">
+                    <h2 class="text-lg font-medium mb-4 text-white border-b border-slate-800 pb-2 flex justify-between items-center">
+                        <span>Locales Activos</span>
+                        <button onclick="loadLocales()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded text-slate-300">↻ Actualizar</button>
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-300">
+                            <thead class="text-xs text-slate-400 uppercase bg-slate-950">
+                                <tr>
+                                    <th class="px-4 py-3 rounded-tl-lg">Nombre</th>
+                                    <th class="px-4 py-3">Código</th>
+                                    <th class="px-4 py-3">Tipo</th>
+                                    <th class="px-4 py-3 rounded-tr-lg">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="locales-table-body" class="divide-y divide-slate-800">
+                                <tr><td colspan="4" class="px-4 py-4 text-center">Cargando datos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= PESTAÑA: PRODUCTOS ======================= -->
+        <div id="tab-productos" class="tab-content w-full">
+            <header class="h-16 flex items-center justify-between px-8 bg-slate-900 border-b border-slate-800">
+                <h1 class="text-xl font-semibold">Creación a Detalle (Modelo EAV)</h1>
+                <button onclick="createProduct()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">
+                    Guardar Producto
+                </button>
+            </header>
+            
+            <div class="p-8 max-w-5xl mx-auto w-full grid grid-cols-2 gap-8">
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl space-y-4">
+                    <h2 class="text-lg font-medium mb-4 text-white border-b border-slate-800 pb-2">Información Maestra</h2>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Nombre del Producto</label>
+                        <input type="text" id="prod-name" value="Biblia Reina Valera 1960 Letra Grande" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">SKU Único</label>
+                            <input type="text" id="prod-sku" value="BIB-RV60-VIDA" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white font-mono">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-6 shadow-xl relative overflow-hidden space-y-4">
+                    <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-bl-lg">Atributos Dinámicos</div>
+                    <h2 class="text-lg font-medium mb-4 text-white border-b border-slate-800 pb-2">Nivel de Minuciosidad</h2>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Versión (Desplegable dinámico)</label>
+                        <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white"><option>Reina Valera 1960</option></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lógica Blindada de Peticiones -->
+    <script>
+        // Cargar Locales (GET)
+        async function loadLocales() {
+            const tbody = document.getElementById('locales-table-body');
+            try {
+                let response = await fetch(`${API_URL}/locations`, {
+                    headers: { "Authorization": `Bearer ${TOKEN}` }
+                });
+                
+                if(!response.ok) {
+                    let err = await response.text();
+                    throw new Error(err || `Status ${response.status}`);
+                }
+                
+                let data = await response.json();
+                console.log("Respuesta de la API:", data);
+                
+                // Escáner inteligente para encontrar el Array
+                let locales = [];
+                if (Array.isArray(data)) locales = data;
+                else if (data.data && Array.isArray(data.data)) locales = data.data;
+                else if (data.locations && Array.isArray(data.locations)) locales = data.locations;
+                
+                tbody.innerHTML = '';
+                if(locales.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-slate-400">No hay locales registrados.</td></tr>`;
+                    return;
+                }
+
+                locales.forEach(loc => {
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-800/50 transition-colors">
+                            <td class="px-4 py-3 font-medium text-white">${loc.name || 'Sin nombre'}</td>
+                            <td class="px-4 py-3 text-slate-400">${loc.code || '-'}</td>
+                            <td class="px-4 py-3 text-slate-400">${loc.type || '-'}</td>
+                            <td class="px-4 py-3"><span class="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-1 rounded border border-emerald-500/30">${loc.status || 'active'}</span></td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-red-400">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Crear Local (POST)
+        async function createLocation() {
+            const name = document.getElementById('loc-name').value;
+            const type = document.getElementById('loc-type').value;
+            
+            if(!name) return alert("Por favor ingresa un nombre para la bodega");
+
+            // Generamos un código aleatorio para evitar conflictos de "Unique Constraint" en PostgreSQL
+            const randomCode = "LOC-" + Math.floor(Math.random() * 10000);
+
+            const payload = { 
+                company_id: COMPANY_ID, 
+                name: name, 
+                code: randomCode,
+                type: type, 
+                status: "active" 
+            };
+
+            try {
+                let res = await fetch(`${API_URL}/locations`, {
+                    method: 'POST',
+                    headers: { "Authorization": `Bearer ${TOKEN}`, "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                
+                if(res.ok) {
+                    showToast("¡Bodega creada exitosamente!");
+                    document.getElementById('loc-name').value = '';
+                    loadLocales(); // Recargar la tabla
+                } else {
+                    let errText = await res.text();
+                    alert(`El servidor rechazó la petición (Error ${res.status}):\n${errText}`);
+                }
+            } catch (e) {
+                alert("Error de conexión: " + e.message);
+            }
+        }
+
+        // Crear Producto (POST)
+        async function createProduct() {
+            const name = document.getElementById('prod-name').value;
+            const sku = document.getElementById('prod-sku').value;
+
+            try {
+                let res = await fetch(`${API_URL}/products`, {
+                    method: 'POST',
+                    headers: { "Authorization": `Bearer ${TOKEN}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ company_id: COMPANY_ID, sku: sku, name: name, inventory_mode: "unit", status: "active" })
+                });
+                
+                if (res.ok) {
+                    showToast("¡Producto guardado!");
+                } else {
+                    let errText = await res.text();
+                    alert(`Error al crear producto:\n${errText}`);
+                }
+            } catch (e) {
+                alert("Error de conexión");
+            }
+        }
+
+        window.onload = loadLocales;
+    </script>
+</body>
+</html>
