@@ -12,7 +12,7 @@ type UserRepository interface {
 }
 
 type UserService interface {
-	CreateUser(ctx context.Context, user *domain.User) error
+	CreateUser(ctx context.Context, companyID string, req *domain.CreateUserRequest) (*domain.User, error)
 	GetUserByID(ctx context.Context, id string) (*domain.User, error)
 	GetByEmail(ctx context.Context, email string) (*domain.User, error)
 }

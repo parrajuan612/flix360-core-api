@@ -16,3 +16,11 @@ type User struct {
 	CreatedAt     time.Time  `json:"created_at" db:"created_at"`
 	UpdatedAt     time.Time  `json:"updated_at" db:"updated_at"`
 }
+
+// CreateUserRequest define el payload para dar de alta un usuario
+type CreateUserRequest struct {
+	FullName string `json:"full_name" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8"`
+	Role     string `json:"role"` // admin, manager, operator (default: operator)
+}

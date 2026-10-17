@@ -23,7 +23,11 @@ func NewAuthService(userRepo ports.UserRepository) ports.AuthService {
 }
 
 func (s *authService) Login(ctx context.Context, req *domain.LoginRequest) (*domain.LoginResponse, error) {
-	req.Email = strings.TrimSpace(strings.ToLower(req.Email))
+	email := req.Email
+	if email == "" {
+		email = req.Username
+	}
+	req.Email = strings.TrimSpace(strings.ToLower(email))
 
 	// 1. Buscar al usuario
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)

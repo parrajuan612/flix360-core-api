@@ -18,19 +18,24 @@ func NewUserHandler(service ports.UserService) *UserHandler {
 }
 
 func (h *UserHandler) CreateUser(c *gin.Context) {
-	var user domain.User
-	if err := c.ShouldBindJSON(&user); err != nil {
+	companyID := c.GetString("company_id")
+	if companyID == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "No se encontró el tenant en la sesión"})
+		return
+	}
+
+	var req domain.CreateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Datos inválidos", "detalle": err.Error()})
 		return
 	}
 
-	if err := h.service.CreateUser(c.Request.Context(), &user); err != nil {
+	user, err := h.service.CreateUser(c.Request.Context(), companyID, &req)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Limpiamos el password antes de devolver el JSON por seguridad
-	user.PasswordHash = ""
 	c.JSON(http.StatusCreated, user)
 }
 

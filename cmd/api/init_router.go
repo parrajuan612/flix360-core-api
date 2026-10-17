@@ -14,7 +14,6 @@ func InitRouter(r *gin.Engine, h *AppHandlers) {
 		// RUTAS PÚBLICAS (No requieren Token)
 		// ==========================================
 		v1.POST("/login", h.Auth.Login)
-		v1.POST("/users", h.User.CreateUser) // Solo por ahora para poder crear usuarios
 
 		// ==========================================
 		// RUTAS PRIVADAS (Protegidas por JWT)
@@ -22,6 +21,10 @@ func InitRouter(r *gin.Engine, h *AppHandlers) {
 		protected := v1.Group("/")
 		protected.Use(middlewares.JWTAuthMiddleware()) // <-- Aquí activamos el Guardia
 		{
+			// --- Usuarios ---
+			protected.POST("/users", middlewares.RequireRole("admin"), h.User.CreateUser)
+			protected.GET("/users/:id", h.User.GetUserByID)
+
 			// --- Productos ---
 			protected.POST("/products", h.Product.CreateProduct)
 			protected.GET("/products", h.Product.ListProducts)

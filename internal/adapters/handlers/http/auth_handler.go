@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
 
 	"flix360-core-api/internal/core/domain"
@@ -19,9 +18,7 @@ func NewAuthHandler(service ports.AuthService) *AuthHandler {
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
-
 	var req domain.LoginRequest
-	fmt.Println(req)
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON inválido"})
 		return
